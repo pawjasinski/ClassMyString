@@ -7,6 +7,9 @@
 
 #include "MyString.h"
 #include <cstring>
+#include <iomanip>
+
+size_t MyString::CINLIMIT = 100;
 
 MyString::MyString() {
 	len = 0;
@@ -31,10 +34,10 @@ MyString::MyString(const MyString &_str) {
 	strncpy(str, _str.str, len + 1);
 }
 
-MyString::MyString(MyString &&_str) {
+//MyString::MyString(MyString &&_str) {
 	// TODO Auto-generated constructor stub
 
-}
+//}
 
 MyString& MyString::operator=(const MyString &_str) {
 	if(this == &_str) return *this;
@@ -44,10 +47,10 @@ MyString& MyString::operator=(const MyString &_str) {
 	return *this;
 }
 
-MyString& MyString::operator=(MyString &&_str) {
+//MyString& MyString::operator=(MyString &&_str) {
 	// TODO Auto-generated method stub
 
-}
+//}
 
 MyString& MyString::operator=(const char* _str) {
 	len = strlen(_str);
@@ -68,22 +71,26 @@ int MyString::size() const {
 	return len;
 }
 
-friend bool operator<() {
-
+bool operator<(const MyString& st1, const MyString& st2) {
+	return (strcmp(st1.str, st2.str) < 0);
 }
 
-friend bool operator>() {
-
+bool operator>(const MyString& st1, const MyString& st2) {
+	return st2 < st1;
 }
 
-friend bool operator==(){
-
+bool operator==(const MyString& st1, const MyString& st2) {
+	return (strcmp(st1.str, st2.str) == 0);
 }
 
-friend bool operator>>(istream& is, const MyString& _str){
-
+istream& operator>>(istream& is, MyString& _str) {
+	char x[MyString::CINLIMIT];
+	is >> std::setw(MyString::CINLIMIT);
+	if(is) _str = x;
+	return is;
 }
 
-friend ostream& operator<<(ostream& os, const MyString& _str){
-
+ostream& operator<<(ostream& os, const MyString& _str) {
+	os << _str.str;
+	return os;
 }
